@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _createRandomGraph(Size canvasSize) {
-    final List<Vertex> vertices = generateRandomNodes(canvasSize);
+    final List<Node> nodes = generateRandomNodes(canvasSize);
   }
 }
 

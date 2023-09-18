@@ -4,17 +4,17 @@ import 'dart:ui';
 import 'models.dart';
 
 /// Generates some random on random positions inside the [size] area.
-List<Vertex> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
-  final List<Vertex> vertices = <Vertex>[];
+List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
+  final List<Node> nodes = <Node>[];
 
   for (int i = 0; i < numberOfNodes; i++) {
-    vertices.add(Vertex(
+    nodes.add(Node(
       pos: _getRandomPositionInCanvas(size),
       size: _getRandomNodeSize(),
     ));
   }
 
-  return vertices;
+  return nodes;
 }
 
 Offset _getRandomPositionInCanvas(Size size) => Offset(
