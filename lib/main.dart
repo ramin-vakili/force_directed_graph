@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:force_directed_graph/helpers.dart';
 
 import 'models.dart';
 
@@ -32,12 +33,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Size? _graphCanvasSize;
+  final GlobalKey _canvasKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
 
-    _createRandomGraph();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final RenderBox? renderBox =
+          _canvasKey.currentContext?.findRenderObject() as RenderBox?;
+
+      if (renderBox != null) {
+        _graphCanvasSize = renderBox.size;
+      }
+    });
+
+    if (_graphCanvasSize != null) {
+      _createRandomGraph(_graphCanvasSize!);
+    }
   }
 
   @override
@@ -47,15 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: CustomPaint(
-        foregroundPainter: GraphPainter(),
+      body: Container(
+        key: _canvasKey,
+        child: _graphCanvasSize != null
+            ? CustomPaint(foregroundPainter: GraphPainter())
+            : const SizedBox.shrink(),
       ),
     );
   }
 
-  void _createRandomGraph() {
-    final List<Vertex> nodes;
-
+  void _createRandomGraph(Size canvasSize) {
+    final List<Vertex> vertices = generateRandomNodes(canvasSize);
   }
 }
 
