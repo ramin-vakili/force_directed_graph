@@ -3,7 +3,7 @@ import 'dart:ui';
 /// A node of the graph.
 class Node {
   /// The current position of the node in the graph canvas.
-  Offset pos;
+  Offset position;
 
   /// The direction of the force which makes the node to move.
   late Offset force;
@@ -12,8 +12,12 @@ class Node {
   final double size;
 
   /// Initializes a node of the graph.
-  Node({required this.pos, this.size = 5}) {
+  Node({required this.position, this.size = 5}) {
     force = const Offset(0, 0);
+  }
+
+  void updatePosition() {
+    position += force;
   }
 }
 

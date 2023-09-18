@@ -32,7 +32,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
 
@@ -43,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _resetGraph();
+    _setupTicker();
   }
 
   @override
@@ -50,6 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
     super.didUpdateWidget(oldWidget);
 
     _resetGraph();
+  }
+
+  void _setupTicker() {
+    createTicker((elapsed) {
+      _calculateForces();
+      setState(() {});
+    }).start();
   }
 
   void _resetGraph() {
@@ -63,6 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {});
       }
     });
+  }
+
+  void _calculateForces() {
+    for (Node node in _nodes) {
+      Offset randomForce = node.position * -0.1;
+      node.force = randomForce;
+
+      node.updatePosition();
+    }
   }
 
   @override
@@ -103,7 +121,7 @@ class GraphPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final Node node in nodes) {
-      canvas.drawCircle(node.pos, node.size, _nodePaint);
+      canvas.drawCircle(node.position, node.size, _nodePaint);
     }
   }
 

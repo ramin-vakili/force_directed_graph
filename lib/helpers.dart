@@ -10,7 +10,7 @@ List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
 
   for (int i = 0; i < numberOfNodes; i++) {
     nodes.add(Node(
-      pos: _getRandomPositionInCanvas(size),
+      position: _getRandomPositionInCanvas(size),
       size: _getRandomNodeSize(),
     ));
   }
