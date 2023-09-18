@@ -5,7 +5,6 @@ import 'models.dart';
 
 /// Generates some random on random positions inside the [size] area.
 List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
-  print('Size: (${size.width}, ${size.height})');
   final List<Node> nodes = <Node>[];
 
   for (int i = 0; i < numberOfNodes; i++) {

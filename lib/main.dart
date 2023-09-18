@@ -95,10 +95,10 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 100;
+            direction / direction.distanceSquared * 20;
 
-        node1.force += forceBetweenTwoNodes;
-        node2.force -= forceBetweenTwoNodes;
+        node1.force -= forceBetweenTwoNodes;
+        node2.force += forceBetweenTwoNodes;
 
         node1.updatePosition();
         node2.updatePosition();
@@ -108,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-    print('Nodes ${_nodes.length}');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -143,6 +142,8 @@ class GraphPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+
+    // canvas.drawCircle(nodes.first.position, nodes.first.size, _nodePaint);
     for (final Node node in nodes) {
       canvas.drawCircle(node.position, node.size, _nodePaint);
     }
