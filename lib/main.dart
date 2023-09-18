@@ -95,13 +95,13 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 20;
+            direction / direction.distanceSquared * 1000;
+
 
         node1.force -= forceBetweenTwoNodes;
         node2.force += forceBetweenTwoNodes;
 
         node1.updatePosition();
-        node2.updatePosition();
       }
     }
   }
@@ -142,7 +142,6 @@ class GraphPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     // canvas.drawCircle(nodes.first.position, nodes.first.size, _nodePaint);
     for (final Node node in nodes) {
       canvas.drawCircle(node.position, node.size, _nodePaint);

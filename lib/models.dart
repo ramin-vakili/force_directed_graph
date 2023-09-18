@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:developer' as dev;
 
 import 'package:flutter/cupertino.dart';
 
@@ -20,7 +19,7 @@ class Node {
   }
 
   void updatePosition() {
-    position += force;
+    position += force / size;
   }
 }
 
