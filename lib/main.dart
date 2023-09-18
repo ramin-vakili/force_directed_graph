@@ -36,54 +36,77 @@ class _MyHomePageState extends State<MyHomePage> {
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
 
+  final List<Node> _nodes = <Node>[];
+
   @override
   void initState() {
     super.initState();
 
+    _resetGraph();
+  }
+
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _resetGraph();
+  }
+
+  void _resetGraph() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox? renderBox =
           _canvasKey.currentContext?.findRenderObject() as RenderBox?;
 
       if (renderBox != null) {
         _graphCanvasSize = renderBox.size;
+        _createRandomGraph(_graphCanvasSize!);
+        setState(() {});
       }
     });
-
-    if (_graphCanvasSize != null) {
-      _createRandomGraph(_graphCanvasSize!);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Nodes ${_nodes.length}');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Container(
-        key: _canvasKey,
-        child: _graphCanvasSize != null
-            ? CustomPaint(foregroundPainter: GraphPainter())
-            : const SizedBox.shrink(),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          key: _canvasKey,
+          child: _graphCanvasSize != null
+              ? CustomPaint(foregroundPainter: GraphPainter(_nodes))
+              : const SizedBox.shrink(),
+        ),
       ),
     );
   }
 
   void _createRandomGraph(Size canvasSize) {
     final List<Node> nodes = generateRandomNodes(canvasSize);
+    _nodes.addAll(nodes);
   }
 }
 
 class GraphPainter extends CustomPainter {
+  GraphPainter(this.nodes) : _nodePaint = Paint()..color = Colors.blueAccent;
+
+  final List<Node> nodes;
+
+  final Paint _nodePaint;
+
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
+    for (final Node node in nodes) {
+      canvas.drawCircle(node.pos, node.size, _nodePaint);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
