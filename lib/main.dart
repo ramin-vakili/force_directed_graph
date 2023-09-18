@@ -56,7 +56,11 @@ class _MyHomePageState extends State<MyHomePage>
 
   void _setupTicker() {
     createTicker((elapsed) {
-      _calculateForces();
+      if (_graphCanvasSize != null) {
+        _calculateForces(
+          Offset(_graphCanvasSize!.width / 2, _graphCanvasSize!.height / 2),
+        );
+      }
       setState(() {});
     }).start();
   }
@@ -74,9 +78,12 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  void _calculateForces() {
+  void _calculateForces(Offset center) {
+    // Create force to attract nodes toward center.
     for (Node node in _nodes) {
+      final Offset directionTo;
       Offset randomForce = node.position * -0.1;
+      print(randomForce);
       node.force = randomForce;
 
       node.updatePosition();
