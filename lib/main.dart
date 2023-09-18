@@ -81,10 +81,8 @@ class _MyHomePageState extends State<MyHomePage>
   void _calculateForces(Offset center) {
     // Create force to attract nodes toward center.
     for (Node node in _nodes) {
-      final Offset directionTo;
-      Offset randomForce = node.position * -0.1;
-      print(randomForce);
-      node.force = randomForce;
+      final Offset forceTowardCenter = (center - node.position) * 0.1;
+      node.force = forceTowardCenter;
 
       node.updatePosition();
     }
