@@ -86,6 +86,24 @@ class _MyHomePageState extends State<MyHomePage>
 
       node.updatePosition();
     }
+
+    // Create force between each pair of nodes
+    for (int i = 0; i < _nodes.length; i++) {
+      for (int j = i + 1; j < _nodes.length; j++) {
+        final Node node1 = _nodes[i];
+        final Node node2 = _nodes[j];
+        final direction = node2.position - node1.position;
+
+        final Offset forceBetweenTwoNodes =
+            direction / direction.distanceSquared * 100;
+
+        node1.force += forceBetweenTwoNodes;
+        node2.force -= forceBetweenTwoNodes;
+
+        node1.updatePosition();
+        node2.updatePosition();
+      }
+    }
   }
 
   @override
