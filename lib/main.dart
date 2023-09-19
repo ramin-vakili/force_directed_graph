@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage>
 
       final distance = node2.position - node1.position;
 
-      final attractiveForce = distance * 0.6;
+      final attractiveForce = distance * 0.8;
       node1.force += attractiveForce;
       node2.force -= attractiveForce;
       node1.updatePosition();
