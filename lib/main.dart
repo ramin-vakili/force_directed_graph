@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:force_directed_graph/helpers.dart';
 
@@ -37,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
   Node? _selectedNode;
@@ -192,28 +191,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _createRandomGraph(Size canvasSize) {
-    final List<Node> nodes = generateRandomNodes(canvasSize, numberOfNodes: 30);
-    _nodes.addAll(nodes);
-
-    // Add edges
-    for (int i = 0; i < 20; i++) {
-      final (int, int) randomPairs = _getRandomEdgePairs();
-      _edges.add(Edge(
-        _nodes[randomPairs.$1],
-        _nodes[randomPairs.$2],
-        Random().nextInt(20).toDouble(),
-      ));
-    }
-  }
-
-  (int, int) _getRandomEdgePairs() {
-    int i = 0, j = 0;
-    do {
-      final Random random = Random();
-      i = random.nextInt(_nodes.length);
-      j = random.nextInt(_nodes.length);
-    } while (i == j);
-
-    return (i, j);
+    _nodes.addAll(generateRandomNodes(canvasSize, numberOfNodes: 30));
+    _edges.addAll(generateRandomEdgesForNodes(_nodes));
   }
 }

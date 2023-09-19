@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 
+/// The [CustomPainter] which paints the graph on the canvas.
 class GraphPainter extends CustomPainter {
+  /// Initializes the CustomPainter to paint the graph on the canvas.
   GraphPainter({required this.nodes, required this.edges})
       : _nodePaint = Paint()
           ..color = Colors.blueAccent
@@ -11,7 +13,10 @@ class GraphPainter extends CustomPainter {
           ..color = Colors.deepOrange
           ..strokeWidth = 3;
 
+  /// List of graph nodes.
   final List<Node> nodes;
+
+  /// List of graph edges.
   final List<Edge> edges;
 
   final Paint _nodePaint;
