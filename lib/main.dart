@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:force_directed_graph/helpers.dart';
 
@@ -38,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage>
   final GlobalKey _canvasKey = GlobalKey();
 
   final List<Node> _nodes = <Node>[];
+  final List<Edge> _edges = <Edge>[];
 
   @override
   void initState() {
@@ -94,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 300;
+            direction / direction.distanceSquared * 200;
 
         node1.force -= forceBetweenTwoNodes;
         node2.force += forceBetweenTwoNodes;
@@ -123,7 +126,11 @@ class _MyHomePageState extends State<MyHomePage>
           height: double.infinity,
           key: _canvasKey,
           child: _graphCanvasSize != null
-              ? CustomPaint(foregroundPainter: GraphPainter(_nodes))
+              ? CustomPaint(
+                  foregroundPainter: GraphPainter(
+                  nodes: _nodes,
+                  edges: _edges,
+                ))
               : const SizedBox.shrink(),
         ),
       ),
@@ -133,13 +140,39 @@ class _MyHomePageState extends State<MyHomePage>
   void _createRandomGraph(Size canvasSize) {
     final List<Node> nodes = generateRandomNodes(canvasSize, numberOfNodes: 30);
     _nodes.addAll(nodes);
+
+    // Add edges
+    for (int i = 0; i < 10; i++) {
+      final (int, int) randomPairs = _getRandomEdgePairs();
+      print('${randomPairs.$1} ${randomPairs.$2}');
+      _edges.add(Edge(
+        _nodes[randomPairs.$1],
+        _nodes[randomPairs.$2],
+        Random().nextInt(20).toDouble(),
+      ));
+    }
+  }
+
+  (int, int) _getRandomEdgePairs() {
+    int i = 0, j = 0;
+    do {
+      final Random random = Random();
+      i = random.nextInt(_nodes.length);
+      j = random.nextInt(_nodes.length);
+    } while (i == j);
+
+    return (i, j);
   }
 }
 
 class GraphPainter extends CustomPainter {
-  GraphPainter(this.nodes) : _nodePaint = Paint()..color = Colors.blueAccent;
+  GraphPainter({required this.nodes, required this.edges})
+      : _nodePaint = Paint()
+          ..color = Colors.blueAccent
+          ..strokeWidth = 2;
 
   final List<Node> nodes;
+  final List<Edge> edges;
 
   final Paint _nodePaint;
 
@@ -147,6 +180,10 @@ class GraphPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (final Node node in nodes) {
       canvas.drawCircle(node.position, node.size, _nodePaint);
+    }
+
+    for (final Edge edge in edges) {
+      canvas.drawLine(edge.node1.position, edge.node2.position, _nodePaint);
     }
   }
 
