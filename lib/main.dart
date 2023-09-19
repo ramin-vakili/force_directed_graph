@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:force_directed_graph/helpers.dart';
 
+import 'graph_painter.dart';
 import 'models.dart';
 
 void main() {
@@ -162,7 +163,6 @@ class _MyHomePageState extends State<MyHomePage>
                     }
                   },
                   onPanUpdate: (details) {
-                    // print('### CloseNode id: ${closeNode.id}');
                     if (_selectedNode == null) {
                       return;
                     }
@@ -204,35 +204,6 @@ class _MyHomePageState extends State<MyHomePage>
         Random().nextInt(20).toDouble(),
       ));
     }
-    // final node1 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
-    // final node2 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
-    // final node3 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 12);
-    // final node4 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 8);
-    // final node5 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 9);
-    // final node6 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
-    // final node7 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 7);
-    // final node8 =
-    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 6);
-    //
-    // _nodes.addAll([node1, node2, node3, node4, node5, node6, node7, node8]);
-
-    // _edges.addAll([
-    //   Edge(node1, node2, 20),
-    //   Edge(node2, node3, 20),
-    //   Edge(node3, node4, 20),
-    //   Edge(node5, node4, 20),
-    //   Edge(node6, node4, 20),
-    //   Edge(node6, node7, 20),
-    //   Edge(node6, node8, 20),
-    //   Edge(node8, node1, 20),
-    // ]);
   }
 
   (int, int) _getRandomEdgePairs() {
@@ -245,30 +216,4 @@ class _MyHomePageState extends State<MyHomePage>
 
     return (i, j);
   }
-}
-
-class GraphPainter extends CustomPainter {
-  GraphPainter({required this.nodes, required this.edges})
-      : _nodePaint = Paint()
-          ..color = Colors.blueAccent
-          ..strokeWidth = 2;
-
-  final List<Node> nodes;
-  final List<Edge> edges;
-
-  final Paint _nodePaint;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final Node node in nodes) {
-      canvas.drawCircle(node.position, node.size, _nodePaint);
-    }
-
-    for (final Edge edge in edges) {
-      canvas.drawLine(edge.node1.position, edge.node2.position, _nodePaint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
