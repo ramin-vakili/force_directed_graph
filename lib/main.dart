@@ -57,9 +57,7 @@ class _MyHomePageState extends State<MyHomePage>
   void _setupTicker() {
     createTicker((elapsed) {
       if (_graphCanvasSize != null) {
-        _calculateForces(
-          Offset(_graphCanvasSize!.width / 2, _graphCanvasSize!.height / 2),
-        );
+        _calculateForces(_graphCanvasSize!);
       }
       setState(() {});
     }).start();
@@ -78,13 +76,14 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  void _calculateForces(Offset center) {
+  void _calculateForces(Size size) {
     // Create force to attract nodes toward center.
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final Rect canvasRect = Rect.fromLTRB(0, 0, size.width, size.height);
+
     for (Node node in _nodes) {
       final Offset forceTowardCenter = (center - node.position) * 0.1;
       node.force = forceTowardCenter;
-
-      node.updatePosition();
     }
 
     // Create force between each pair of nodes
@@ -95,13 +94,17 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 1000;
-
+            direction / direction.distanceSquared * 300;
 
         node1.force -= forceBetweenTwoNodes;
         node2.force += forceBetweenTwoNodes;
 
         node1.updatePosition();
+
+        if (!canvasRect.contains(node1.position)) {
+          node1.position = Offset(node1.position.dx.clamp(0, size.width),
+              node1.position.dy.clamp(0, size.height));
+        }
       }
     }
   }
@@ -128,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _createRandomGraph(Size canvasSize) {
-    final List<Node> nodes = generateRandomNodes(canvasSize);
+    final List<Node> nodes = generateRandomNodes(canvasSize, numberOfNodes: 30);
     _nodes.addAll(nodes);
   }
 }
@@ -142,7 +145,6 @@ class GraphPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // canvas.drawCircle(nodes.first.position, nodes.first.size, _nodePaint);
     for (final Node node in nodes) {
       canvas.drawCircle(node.position, node.size, _nodePaint);
     }
