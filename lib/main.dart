@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
+  Node? _selectedNode;
 
   final List<Node> _nodes = <Node>[];
   final List<Edge> _edges = <Edge>[];
@@ -140,11 +141,50 @@ class _MyHomePageState extends State<MyHomePage>
           height: double.infinity,
           key: _canvasKey,
           child: _graphCanvasSize != null
-              ? CustomPaint(
-                  foregroundPainter: GraphPainter(
-                  nodes: _nodes,
-                  edges: _edges,
-                ))
+              ? GestureDetector(
+                  onPanStart: (details) {
+                    final Offset mousePos = Offset(
+                      details.localPosition.dx,
+                      details.localPosition.dy,
+                    );
+
+                    for (final Node node in _nodes) {
+                      final Rect nodeRect = Rect.fromCenter(
+                        center: node.position,
+                        width: node.size,
+                        height: node.size,
+                      );
+
+                      if (nodeRect.contains(mousePos)) {
+                        _selectedNode = node;
+                        break;
+                      }
+                    }
+                  },
+                  onPanUpdate: (details) {
+                    // print('### CloseNode id: ${closeNode.id}');
+                    if (_selectedNode == null) {
+                      return;
+                    }
+                    final Offset mousePos = Offset(
+                        details.localPosition.dx, details.localPosition.dy);
+
+                    _selectedNode!.position = Offset.lerp(
+                      _selectedNode!.position,
+                      mousePos,
+                      0.2,
+                    )!;
+                  },
+                  onPanEnd: (details) {
+                    _selectedNode = null;
+                  },
+                  child: CustomPaint(
+                    painter: GraphPainter(
+                      nodes: _nodes,
+                      edges: _edges,
+                    ),
+                  ),
+                )
               : const SizedBox.shrink(),
         ),
       ),
@@ -164,6 +204,35 @@ class _MyHomePageState extends State<MyHomePage>
         Random().nextInt(20).toDouble(),
       ));
     }
+    // final node1 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
+    // final node2 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
+    // final node3 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 12);
+    // final node4 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 8);
+    // final node5 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 9);
+    // final node6 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 5);
+    // final node7 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 7);
+    // final node8 =
+    //     Node(position: getRandomPositionInCanvas(canvasSize), size: 6);
+    //
+    // _nodes.addAll([node1, node2, node3, node4, node5, node6, node7, node8]);
+
+    // _edges.addAll([
+    //   Edge(node1, node2, 20),
+    //   Edge(node2, node3, 20),
+    //   Edge(node3, node4, 20),
+    //   Edge(node5, node4, 20),
+    //   Edge(node6, node4, 20),
+    //   Edge(node6, node7, 20),
+    //   Edge(node6, node8, 20),
+    //   Edge(node8, node1, 20),
+    // ]);
   }
 
   (int, int) _getRandomEdgePairs() {

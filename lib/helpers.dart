@@ -9,7 +9,7 @@ List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
 
   for (int i = 0; i < numberOfNodes; i++) {
     nodes.add(Node(
-      position: _getRandomPositionInCanvas(size),
+      position: getRandomPositionInCanvas(size),
       size: _getRandomNodeSize(),
     ));
   }
@@ -17,7 +17,7 @@ List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
   return nodes;
 }
 
-Offset _getRandomPositionInCanvas(Size size) => Offset(
+Offset getRandomPositionInCanvas(Size size) => Offset(
       Random().nextInt(size.width.toInt()).toDouble(),
       Random().nextInt(size.height.toInt()).toDouble(),
     );
