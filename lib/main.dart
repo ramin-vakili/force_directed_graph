@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage>
     final Rect canvasRect = Rect.fromLTRB(0, 0, size.width, size.height);
 
     for (Node node in _nodes) {
-      final Offset forceTowardCenter = (center - node.position) * 0.1;
+      final Offset forceTowardCenter = (center - node.position) * 0.07;
       node.force = forceTowardCenter;
     }
 
@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 200;
+            direction / direction.distanceSquared * 100;
 
         node1.force -= forceBetweenTwoNodes;
         node2.force += forceBetweenTwoNodes;

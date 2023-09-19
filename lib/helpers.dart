@@ -27,7 +27,7 @@ List<Edge> generateRandomEdgesForNodes(List<Node> nodes) {
     edges.add(Edge(
       nodes[randomPairs.$1],
       nodes[randomPairs.$2],
-      Random().nextInt(20).toDouble(),
+      Random().nextInt(20).toDouble() + 10,
     ));
   }
 
@@ -40,7 +40,7 @@ Offset getRandomPositionInCanvas(Size size) => Offset(
       Random().nextInt(size.height.toInt()).toDouble(),
     );
 
-double _getRandomNodeSize() => Random().nextInt(5) + 4.0;
+double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 
 /// Generates two int numbers in the range of [nodes] length which in a way
 /// that i != j.
