@@ -110,6 +110,20 @@ class _MyHomePageState extends State<MyHomePage>
         }
       }
     }
+
+    // Calculate attractive force of edges.
+    for (final Edge edge in _edges) {
+      final Node node1 = edge.node1;
+      final Node node2 = edge.node2;
+
+      final distance = node2.position - node1.position;
+
+      final attractiveForce = distance * 0.6;
+      node1.force += attractiveForce;
+      node2.force -= attractiveForce;
+      node1.updatePosition();
+      node2.updatePosition();
+    }
   }
 
   @override
@@ -142,9 +156,8 @@ class _MyHomePageState extends State<MyHomePage>
     _nodes.addAll(nodes);
 
     // Add edges
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
       final (int, int) randomPairs = _getRandomEdgePairs();
-      print('${randomPairs.$1} ${randomPairs.$2}');
       _edges.add(Edge(
         _nodes[randomPairs.$1],
         _nodes[randomPairs.$2],
