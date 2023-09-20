@@ -35,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
   Node? _selectedNode;
@@ -104,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage>
         node2.force += forceBetweenTwoNodes;
 
         node1.updatePosition();
+        node2.updatePosition();
 
         if (!canvasRect.contains(node1.position)) {
           node1.position = Offset(node1.position.dx.clamp(0, size.width),
