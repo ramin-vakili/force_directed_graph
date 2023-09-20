@@ -1,18 +1,20 @@
 # Flutter Force-Directed Algorithm Simulation
 
-![Demo](demo.gif)
-
 ## Overview
 
-This Flutter project is an exciting implementation of a Force-Directed Algorithm to simulate the behavior of particles in a virtual environment. It's an exploration of physics-inspired interactions that bring life to your screen.
+This Flutter project is an implementation of a Force-Directed Algorithm to simulate the behavior of
+particles in a virtual environment.
 
 ### Key Features
 
-- **Attractive Force to the Center**: Each particle is attracted to the center of the screen, creating a captivating central focal point.
+- **Attractive Force to the Center**: Each particle is attracted to the center of the screen,
+  creating a captivating central focal point.
 
-- **Repulsive Forces Between Particles**: Particles naturally repel each other when they get too close, simulating the way real-world particles interact.
+- **Repulsive Forces Between Particles**: Particles naturally repel each other when they get too
+  close, simulating the way real-world particles interact.
 
-- **Attractive Edges**: The edges connecting particles exert an attractive force, ensuring that particles stay connected and move together as interconnected communities.
+- **Attractive Edges**: The edges connecting particles exert an attractive force, ensuring that
+  particles stay connected and move together as interconnected communities.
 
 ## Demo
 
