@@ -34,3 +34,18 @@ Before you begin, ensure you have met the following requirements:
 
    ```bash
    git clone https://github.com/ramin-vakili/force_directed_graph.git 
+   
+2. Navigate to the project:
+
+   ```bash
+   cd foce_directed_graph
+   
+3. Install dependencies:
+
+   ```bash
+   flutter pub get
+   
+4. Run
+
+   ```bash
+   flutter run
