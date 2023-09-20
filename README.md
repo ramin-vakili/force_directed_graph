@@ -1,16 +1,34 @@
-# force_directed_graph
+# Flutter Force-Directed Algorithm Simulation
 
-A new Flutter project.
+![Demo](demo.gif)
+
+## Overview
+
+This Flutter project is an exciting implementation of a Force-Directed Algorithm to simulate the behavior of particles in a virtual environment. It's an exploration of physics-inspired interactions that bring life to your screen.
+
+### Key Features
+
+- **Attractive Force to the Center**: Each particle is attracted to the center of the screen, creating a captivating central focal point.
+
+- **Repulsive Forces Between Particles**: Particles naturally repel each other when they get too close, simulating the way real-world particles interact.
+
+- **Attractive Edges**: The edges connecting particles exert an attractive force, ensuring that particles stay connected and move together as interconnected communities.
+
+## Demo
+
+![Demo](demo.gif)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Before you begin, ensure you have met the following requirements:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter: [Installation Guide](https://flutter.dev/docs/get-started/install)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/ramin-vakili/force_directed_graph.git 
