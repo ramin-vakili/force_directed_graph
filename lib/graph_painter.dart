@@ -29,7 +29,7 @@ class GraphPainter extends CustomPainter {
     }
 
     for (final Node node in nodes) {
-      canvas.drawCircle(node.position, node.size, _nodePaint);
+      canvas.drawCircle(node.position, node.mass, _nodePaint);
     }
   }
 

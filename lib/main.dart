@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage>
 
     for (Node node in _nodes) {
       final Offset forceTowardCenter = (center - node.position) * 0.07;
-      node.force = forceTowardCenter;
+      node.updatePosition(force: forceTowardCenter, size: _graphCanvasSize!);
     }
 
     // Create force between each pair of nodes
@@ -97,13 +97,16 @@ class _MyHomePageState extends State<MyHomePage>
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
-            direction / direction.distanceSquared * 100;
+            direction / direction.distanceSquared * 700;
 
-        node1.force -= forceBetweenTwoNodes;
-        node2.force += forceBetweenTwoNodes;
-
-        node1.updatePosition();
-        node2.updatePosition();
+        node1.updatePosition(
+          force: -forceBetweenTwoNodes,
+          size: _graphCanvasSize!,
+        );
+        node2.updatePosition(
+          force: forceBetweenTwoNodes,
+          size: _graphCanvasSize!,
+        );
 
         if (!canvasRect.contains(node1.position)) {
           node1.position = Offset(node1.position.dx.clamp(0, size.width),
@@ -119,11 +122,10 @@ class _MyHomePageState extends State<MyHomePage>
 
       final distance = node2.position - node1.position;
 
-      final attractiveForce = distance * 0.8;
-      node1.force += attractiveForce;
-      node2.force -= attractiveForce;
-      node1.updatePosition();
-      node2.updatePosition();
+      final attractiveForce = distance * 1.1;
+
+      node1.updatePosition(force: attractiveForce, size: _graphCanvasSize!);
+      node2.updatePosition(force: -attractiveForce, size: _graphCanvasSize!);
     }
   }
 
@@ -151,8 +153,8 @@ class _MyHomePageState extends State<MyHomePage>
                     for (final Node node in _nodes) {
                       final Rect nodeRect = Rect.fromCenter(
                         center: node.position,
-                        width: node.size,
-                        height: node.size,
+                        width: node.mass,
+                        height: node.mass,
                       );
 
                       if (nodeRect.contains(mousePos)) {
