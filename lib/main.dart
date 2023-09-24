@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage>
     final Rect canvasRect = Rect.fromLTRB(0, 0, size.width, size.height);
 
     for (Node node in _nodes) {
-      final Offset forceTowardCenter = (center - node.position) * 0.07;
+      final Offset forceTowardCenter = (center - node.position) * 0.7;
       node.updatePosition(force: forceTowardCenter, size: _graphCanvasSize!);
     }
 
