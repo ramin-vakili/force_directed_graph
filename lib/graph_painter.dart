@@ -5,7 +5,7 @@ import 'models.dart';
 /// The [CustomPainter] which paints the graph on the canvas.
 class GraphPainter extends CustomPainter {
   /// Initializes the CustomPainter to paint the graph on the canvas.
-  GraphPainter({required this.nodes, required this.edges})
+  GraphPainter(this.graph)
       : _nodePaint = Paint()
           ..color = Colors.blueAccent
           ..strokeWidth = 2,
@@ -13,22 +13,18 @@ class GraphPainter extends CustomPainter {
           ..color = Colors.deepOrange
           ..strokeWidth = 3;
 
-  /// List of graph nodes.
-  final List<Node> nodes;
-
-  /// List of graph edges.
-  final List<Edge> edges;
+  final Graph graph;
 
   final Paint _nodePaint;
   final Paint _edgePaint;
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (final Edge edge in edges) {
+    for (final Edge edge in graph.edges) {
       canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
     }
 
-    for (final Node node in nodes) {
+    for (final Node node in graph.nodes) {
       canvas.drawCircle(node.position, node.mass, _nodePaint);
     }
   }

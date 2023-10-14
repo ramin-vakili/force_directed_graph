@@ -1,6 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+class Graph {
+  Graph({required this.nodes, required this.edges});
+
+  final List<Node> nodes;
+  final List<Edge> edges;
+}
+
 /// A node of the graph.
 class Node {
   Node(this.mass, {Offset? initialPosition})

@@ -39,8 +39,7 @@ class _MyHomePageState extends State<MyHomePage>
   final GlobalKey _canvasKey = GlobalKey();
   Node? _selectedNode;
 
-  final List<Node> _nodes = <Node>[];
-  final List<Edge> _edges = <Edge>[];
+  late Graph _graph;
 
   @override
   void initState() {
@@ -84,16 +83,16 @@ class _MyHomePageState extends State<MyHomePage>
     final Offset center = Offset(size.width / 2, size.height / 2);
     final Rect canvasRect = Rect.fromLTRB(0, 0, size.width, size.height);
 
-    for (Node node in _nodes) {
+    for (Node node in _graph.nodes) {
       final Offset forceTowardCenter = (center - node.position) * 0.7;
       node.updatePosition(force: forceTowardCenter, size: _graphCanvasSize!);
     }
 
     // Create force between each pair of nodes
-    for (int i = 0; i < _nodes.length; i++) {
-      for (int j = i + 1; j < _nodes.length; j++) {
-        final Node node1 = _nodes[i];
-        final Node node2 = _nodes[j];
+    for (int i = 0; i < _graph.nodes.length; i++) {
+      for (int j = i + 1; j < _graph.nodes.length; j++) {
+        final Node node1 = _graph.nodes[i];
+        final Node node2 = _graph.nodes[j];
         final direction = node2.position - node1.position;
 
         final Offset forceBetweenTwoNodes =
@@ -116,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
     // Calculate attractive force of edges.
-    for (final Edge edge in _edges) {
+    for (final Edge edge in _graph.edges) {
       final Node node1 = edge.node1;
       final Node node2 = edge.node2;
 
@@ -150,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage>
                       details.localPosition.dy,
                     );
 
-                    for (final Node node in _nodes) {
+                    for (final Node node in _graph.nodes) {
                       final Rect nodeRect = Rect.fromCenter(
                         center: node.position,
                         width: node.mass,
@@ -179,12 +178,7 @@ class _MyHomePageState extends State<MyHomePage>
                   onPanEnd: (details) {
                     _selectedNode = null;
                   },
-                  child: CustomPaint(
-                    painter: GraphPainter(
-                      nodes: _nodes,
-                      edges: _edges,
-                    ),
-                  ),
+                  child: CustomPaint(painter: GraphPainter(_graph)),
                 )
               : const SizedBox.shrink(),
         ),
@@ -193,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _createRandomGraph(Size canvasSize) {
-    _nodes.addAll(generateRandomNodes(canvasSize, numberOfNodes: 30));
-    _edges.addAll(generateRandomEdgesForNodes(_nodes));
+    final List<Node> nodes = generateRandomNodes(canvasSize, numberOfNodes: 30);
+    _graph = Graph(nodes: nodes, edges: generateRandomEdgesForNodes(nodes));
   }
 }
